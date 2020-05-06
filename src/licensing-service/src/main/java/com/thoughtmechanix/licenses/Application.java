@@ -1,4 +1,6 @@
-package main.java.com.thoughtmechanix.licenses;
+package com.thoughtmechanix.licenses;
+
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class Application {
