@@ -1,2 +1,2 @@
-# SpringMicroservicesInAction
-Work from "Spring Microservices In Action" by John Carnell
+# Spring Microservices In Action
+Work from _Spring Microservices In Action_ by John Carnell
