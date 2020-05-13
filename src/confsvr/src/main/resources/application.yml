@@ -6,5 +6,7 @@ spring:
     cloud:
         config:
             server:
-                native:
-                    searchLocations: classpath:config/licensingservice
+                git:
+                    uri: https://github.com/SnakeDoc/SpringMicroservicesInActionConfig
+                    searchLocations: licensingservice, organizationservice
+                    
