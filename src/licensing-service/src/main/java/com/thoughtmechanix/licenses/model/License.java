@@ -1,11 +1,29 @@
 package com.thoughtmechanix.licenses.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "licenses")
 public class License {
 
+	@Id
+	@Column(name = "license_id", nullable = false)
 	private String id;
+	
+	@Column(name = "product_name", nullable = false)
 	private String productName;
+	
+	@Column(name = "licenseType", nullable = false)
 	private String licenseType;
+	
+	@Column(name = "organization_id", nullable = false)
 	private String organizationId;
+	
+	@Column(name = "comment")
+	private String comment;
 	
 	public String getId() {
 		return id;
@@ -35,6 +53,13 @@ public class License {
 		this.organizationId = organizationId;
 	}
 	
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	
 	// builders
 	public License withId(String id) {
 		this.setId(id);
@@ -53,6 +78,11 @@ public class License {
 	
 	public License withOrganizationId(String organizationId) {
 		this.setOrganizationId(organizationId);
+		return this;
+	}
+	
+	public License withComment(String comment) {
+		this.setComment(comment);
 		return this;
 	}
 	
