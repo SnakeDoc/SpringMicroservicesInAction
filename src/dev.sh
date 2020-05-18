@@ -15,28 +15,88 @@ SERVICES=("confsvr" "licensing-service")
 
 ###############################################################################
 
+ARGS=()
+
+function validate_commands() {
+	RESULT=false
+	
+	for command in "${ARGS[@]}"; do
+		RESULT="$(validate_command ${command} ${1} ${2})"
+		if [[ ${RESULT} == true ]]; then
+			break
+		fi
+	done
+	
+	echo "${RESULT}"
+}
 #
-# If the command line flag -r, --run is used, optionally run the built containers
+# Arguments:
+#	1) Command Line Argument
+#	2) Command Short Flag
+#	3) Command Long Flag
+function validate_command () {
+	echo $([[ "${1}" == "${2}" || "${1}" == "${3}" ]] && echo true || echo false)
+}
+
 #
-DO_RUN="$([[ ${1} == "-r" || ${1} == "--run" ]] && echo true || echo false)"
+# Command Line Arguments:
+#	-b, --build		builds all services
+#	-c, --config	fetches latest version of the config submodule
+#	-r, --run		run the built containers in Docker Compose
+#	
+#
+ARGS=("${@}")
+DO_BUILD="$(validate_commands '-b' '--build')"
+DO_CONFIG="$(validate_commands '-c' '--config')"
+DO_RUN="$(validate_commands '-r' '--run')"
 ###############################################################################
 
-trap "exit_routine" ERR
+function run() {
 
-HOME="$(pwd)"
+	if [ ! "${DO_RUN}" == true ] && [ ! "${DO_BUILD}" == true ] && [ ! "${DO_CONFIG}" == true ] ; then
 
-for service in "${SERVICES[@]}"; do
-	cd "${HOME}/${service}"
-	mvn clean package docker:build && sync
-done
+		echo ""
+		echo "Usage: ./dev.sh [OPTION]..."
+		echo ""
+		echo "	-b, --build	builds all services"
+		echo "	-c, --config	fetches latest version of the config submodule"
+		echo "	-r, --run	run the built containers in Docker Compose"
+		echo ""
+		
+		exit_routine
 
-if [[ ${DO_RUN} ]]; then
+	fi
 
-	cd "${HOME}" && docker-compose.exe -f docker/common/docker-compose.yml up
+	trap "exit_routine" ERR
 
-fi
+	HOME="$(pwd)"
+
+	if [[ ${DO_CONFIG} == true ]]; then
+
+		echo "${HOME}"
+		echo "$(whoami)"
+		cd "${HOME}/config" && pwd && git reset --hard HEAD && git pull
+
+	fi
+
+	if [[ ${DO_BUILD} == true ]]; then
+		for service in "${SERVICES[@]}"; do
+			cd "${HOME}/${service}"
+			mvn clean package docker:build && sync
+		done
+	fi
+
+	if [[ ${DO_RUN} == true ]]; then
+
+		cd "${HOME}" && docker-compose.exe -f docker/common/docker-compose.yml up
+
+	fi
+
+}
 
 function exit_routine() {
 	exit 1
 }
+
+run
 
