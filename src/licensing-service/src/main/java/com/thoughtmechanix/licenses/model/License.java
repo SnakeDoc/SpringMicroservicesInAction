@@ -11,7 +11,7 @@ public class License {
 
 	@Id
 	@Column(name = "license_id", nullable = false)
-	private String id;
+	private String licenseId;
 	
 	@Column(name = "product_name", nullable = false)
 	private String productName;
@@ -25,11 +25,11 @@ public class License {
 	@Column(name = "comment")
 	private String comment;
 	
-	public String getId() {
-		return id;
+	public String getLicenseId() {
+		return licenseId;
 	}
-	public void setId(String id) {
-		this.id = id;
+	public void setLicenseId(String licenseId) {
+		this.licenseId = licenseId;
 	}
 	
 	public String getProductName() {
@@ -61,8 +61,8 @@ public class License {
 	}
 	
 	// builders
-	public License withId(String id) {
-		this.setId(id);
+	public License withLicenseId(String licenseId) {
+		this.setLicenseId(licenseId);
 		return this;
 	}
 	

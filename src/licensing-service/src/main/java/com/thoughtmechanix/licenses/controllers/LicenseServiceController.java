@@ -16,7 +16,7 @@ public class LicenseServiceController {
 			@PathVariable("organizationId") String organizationId, 
 			@PathVariable("licenseId") String licenseId) {
 		return new License()
-				.withId(licenseId)
+				.withLicenseId(licenseId)
 				.withProductName("Teleco")
 				.withLicenseType("Seat")
 				.withOrganizationId("TestOrg");
