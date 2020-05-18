@@ -68,6 +68,9 @@ function run() {
 	fi
 
 	trap "exit_routine" ERR
+	
+	eval "$(ssh-agent -s)"
+	ssh-add ~/.ssh/id_rsa
 
 	HOME="$(pwd)"
 
