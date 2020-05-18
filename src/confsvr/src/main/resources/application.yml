@@ -4,6 +4,7 @@ spring:
     cloud:
         config:
             server:
+                # don't decrypt values on config server
                 encrypt.enabled: false
                 git:
                     uri: https://github.com/SnakeDoc/SpringMicroservicesInActionConfig
