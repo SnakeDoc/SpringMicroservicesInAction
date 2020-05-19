@@ -11,7 +11,7 @@
 #
 # We're not sure what diretories will show up in here... so be explicit.
 #
-SERVICES=("confsvr" "licensing-service")
+SERVICES=("confsvr" "licensing-service" "eurekasvr")
 
 ###############################################################################
 
