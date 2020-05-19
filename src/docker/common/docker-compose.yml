@@ -1,7 +1,7 @@
 version: '2'
 services:
     configserver:
-        image: snakedoc/tmx-confsvr:chapter3
+        image: snakedoc/tmx-confsvr:chapter4
         ports:
           - "8888:8888"
         environment:
@@ -15,7 +15,7 @@ services:
             POSTGRES_PASSWORD: "p0stgr@s"
             POSTGRES_DB: "eagle_eye_local"
     licensingservice:
-        image: snakedoc/tmx-licensing-service:chapter3
+        image: snakedoc/tmx-licensing-service:chapter4
         ports:
           - "8080:8080"
         environment:
