@@ -8,5 +8,5 @@ spring:
                     enabled: false
                 git:
                     uri: https://github.com/SnakeDoc/SpringMicroservicesInActionConfig
-                    searchPaths: licensingservice
+                    searchPaths: licensingservice, organizationservice
                     
