@@ -5,4 +5,7 @@ eureka:
         registerWithEureka: false
         fetchRegistry: false
         server:
-            waitTimeInMsWhenSyncEmpty: 5
+           waitTimeInMsWhenSyncEmpty: 5
+        serviceUrl:
+            defaultZone:
+                http://localhost:8761
