@@ -23,6 +23,7 @@ import com.thoughtmechanix.organization.model.Organization;
  * 		Ribbon interceptor's from being injected into RestTemplate...
  * 		we do this by manually instantiating and handling RestTemplate.
  * - "Ribbon unaware"
+ * - Uses actual resolved locations of the services.
  *
  */
 @Component
