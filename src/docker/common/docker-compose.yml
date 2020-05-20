@@ -1,17 +1,17 @@
 version: '2'
 services:
     eurekaserver:
-        image: snakedoc/tmx-eurekasvr:chapter4
+        image: "${IMAGE_USER}/${IMAGE_PREFIX}eurekasvr:${IMAGE_CHAPTER}"
         ports:
           - "8761:8761"
     configserver:
-        image: snakedoc/tmx-confsvr:chapter4
+        image: "${IMAGE_USER}/${IMAGE_PREFIX}confsvr:${IMAGE_CHAPTER}"
         ports:
           - "8888:8888"
         environment:
-            ENCRYPT_KEY: "IMSYMMETRIC"
+            ENCRYPT_KEY: "${KEY}"
     database:
-        image: postgres:9.5
+        image: "postgres:9.5"
         ports:
           - "5432:5432"
         environment:
@@ -19,25 +19,25 @@ services:
             POSTGRES_PASSWORD: "p0stgr@s"
             POSTGRES_DB: "eagle_eye_local"
     licensingservice:
-        image: snakedoc/tmx-licensing-service:chapter4
+        image: "${IMAGE_USER}/${IMAGE_PREFIX}licensing-service:${IMAGE_CHAPTER}"
         ports:
           - "8080:8080"
         environment:
             PROFILE: "default"
-            CONFIGSERVER_URI: "http://configserver:8888"
-            CONFIGSERVER_PORT: "8888"
-            DATABASESERVER_PORT: "5432"
-            ENCRYPT_KEY: "IMSYMMETRIC"
+            CONFIGSERVER_URI: "${CONFIGSERVER_URI}:${CONFIGSERVER_PORT}"
+            CONFIGSERVER_PORT: "${CONFIGSERVER_PORT}"
+            DATABASESERVER_PORT: "${DATABASESERVER_PORT}"
+            ENCRYPT_KEY: "${KEY}"
     organizationservice:
-        image: snakedoc/tmx-organization-service:chapter4
+        image: "${IMAGE_USER}/${IMAGE_PREFIX}organization-service:${IMAGE_CHAPTER}"
         ports:
           - "8085:8085"
         environment:
             PROFILE: "default"
             SERVER_PORT: "8085"
-            CONFIGSERVER_URI: "http://configserver:8888"
-            CONFIGSERVER_PORT: "8888"
-            EUREKASERVER_URI: "http://eurekaserver:8761/eureka/"
-            EUREKASERVER_PORT: "8761"
-            DATABASESERVER_PORT: "5432"
-            ENCRYPT_KEY: "IMSYMMETRIC"
+            CONFIGSERVER_URI: "${CONFIGSERVER_URI}:${CONFIGSERVER_PORT}"
+            CONFIGSERVER_PORT: "${CONFIGSERVER_PORT}"
+            EUREKASERVER_URI: "${EUREKASERVER_URI}:${EUREKASERVER_PORT}/${EUREKASERVER_PATH}"
+            EUREKASERVER_PORT: "${EUREKASERVER_PORT}"
+            DATABASESERVER_PORT: "${DATABASESERVER_PORT}"
+            ENCRYPT_KEY: "${KEY}"

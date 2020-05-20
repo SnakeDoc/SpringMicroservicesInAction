@@ -75,11 +75,7 @@ function run() {
 	HOME="$(pwd)"
 
 	if [[ ${DO_CONFIG} == true ]]; then
-
-		echo "${HOME}"
-		echo "$(whoami)"
 		cd "${HOME}/config" && pwd && git reset --hard HEAD && git pull
-
 	fi
 
 	if [[ ${DO_BUILD} == true ]]; then
@@ -90,9 +86,8 @@ function run() {
 	fi
 
 	if [[ ${DO_RUN} == true ]]; then
-
-		cd "${HOME}" && docker-compose.exe -f docker/common/docker-compose.yml up
-
+		cd "${HOME}" && docker-compose.exe -f docker/common/docker-compose.yml --env-file=docker/common/docker.env rm -f && \
+			docker-compose.exe -f docker/common/docker-compose.yml --env-file=docker/common/docker.env up
 	fi
 
 }
