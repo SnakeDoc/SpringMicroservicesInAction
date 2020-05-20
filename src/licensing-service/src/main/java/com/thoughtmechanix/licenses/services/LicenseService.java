@@ -6,9 +6,11 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.thoughtmechanix.licenses.clients.OrganizationDiscoveryClient;
 import com.thoughtmechanix.licenses.config.ServiceConfig;
 import com.thoughtmechanix.licenses.model.License;
 import com.thoughtmechanix.licenses.repository.LicenseRepository;
+import com.thoughtmechanix.organization.model.Organization;
 
 @Service
 public class LicenseService {
@@ -19,9 +21,24 @@ public class LicenseService {
 	@Autowired
 	private ServiceConfig config;
 	
+	@Autowired
+	private OrganizationDiscoveryClient discoveryClient;
+	
 	public License getLicense(String organizationId, String licenseId) {
 		final License license = licenseRepository.findByOrganizationIdAndLicenseId(organizationId, licenseId);
 		return license.withComment(config.getExampleProperty());
+	}
+	
+	public License getLicense(String organizationId, String licenseId, ServiceClientType clientType) {
+		final License license = licenseRepository.findByOrganizationIdAndLicenseId(organizationId, licenseId);
+		final Organization org = retrieveOrgInfo(organizationId, clientType);
+		
+		return license
+				.withOrganizationName(org.getName())
+				.withContactName(org.getContactName())
+				.withContactEmail(org.getContactEmail())
+				.withContactPhone(org.getContactPhone())
+				.withComment(config.getExampleProperty());
 	}
 	
 	public List<License> getLicenses(String organizationId) {
@@ -41,5 +58,20 @@ public class LicenseService {
 		licenseRepository.save(license);
 	}
 	
-	
+	private Organization retrieveOrgInfo(String organizationId, ServiceClientType clientType) {
+		
+		switch (clientType) {
+		
+		case DISCOVERY:
+			return discoveryClient.getOrganization(organizationId);
+		case REST:
+			return new Organization();
+		case FEIGN:
+			return new Organization();
+		default:
+			return new Organization();
+		
+		}
+		
+	}
 }
