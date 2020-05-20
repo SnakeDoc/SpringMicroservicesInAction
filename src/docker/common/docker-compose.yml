@@ -41,3 +41,16 @@ services:
             EUREKASERVER_PORT: "${EUREKASERVER_PORT}"
             DATABASESERVER_PORT: "${DATABASESERVER_PORT}"
             ENCRYPT_KEY: "${KEY}"
+    organizationservice2:
+        image: "${IMAGE_USER}/${IMAGE_PREFIX}organization-service:${IMAGE_CHAPTER}"
+        ports:
+          - "8086:8086"
+        environment:
+            PROFILE: "default"
+            SERVER_PORT: "8086"
+            CONFIGSERVER_URI: "${CONFIGSERVER_URI}:${CONFIGSERVER_PORT}"
+            CONFIGSERVER_PORT: "${CONFIGSERVER_PORT}"
+            EUREKASERVER_URI: "${EUREKASERVER_URI}:${EUREKASERVER_PORT}/${EUREKASERVER_PATH}"
+            EUREKASERVER_PORT: "${EUREKASERVER_PORT}"
+            DATABASESERVER_PORT: "${DATABASESERVER_PORT}"
+            ENCRYPT_KEY: "${KEY}"
