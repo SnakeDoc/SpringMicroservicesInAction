@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.thoughtmechanix.licenses.clients.OrganizationDiscoveryClient;
+import com.thoughtmechanix.licenses.clients.OrganizationRestTemplateClient;
 import com.thoughtmechanix.licenses.config.ServiceConfig;
 import com.thoughtmechanix.licenses.model.License;
 import com.thoughtmechanix.licenses.repository.LicenseRepository;
@@ -23,6 +24,9 @@ public class LicenseService {
 	
 	@Autowired
 	private OrganizationDiscoveryClient discoveryClient;
+	
+	@Autowired
+	private OrganizationRestTemplateClient restClient;
 	
 	public License getLicense(String organizationId, String licenseId) {
 		final License license = licenseRepository.findByOrganizationIdAndLicenseId(organizationId, licenseId);
@@ -65,7 +69,7 @@ public class LicenseService {
 		case DISCOVERY:
 			return discoveryClient.getOrganization(organizationId);
 		case REST:
-			return new Organization();
+			return restClient.getOrganization(organizationId);
 		case FEIGN:
 			return new Organization();
 		default:
