@@ -28,6 +28,5 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/sipul/eclipse-workspace/SpringMicroservicesInAction/src/organization-service/target/classes"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
