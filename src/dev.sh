@@ -81,7 +81,7 @@ function run() {
 	if [[ ${DO_BUILD} == true ]]; then
 		for service in "${SERVICES[@]}"; do
 			cd "${HOME}/${service}"
-			mvn clean package docker:build && sync
+			mvn clean package docker:build && sync || exit_routine
 		done
 	fi
 
