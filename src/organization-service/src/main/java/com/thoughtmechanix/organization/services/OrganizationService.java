@@ -2,6 +2,8 @@ package com.thoughtmechanix.organization.services;
 
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +16,10 @@ public class OrganizationService {
 	@Autowired
 	private OrganizationRepository orgRepository;
 	
+	final private Logger log = LoggerFactory.getLogger(OrganizationService.class);
+	
 	public Organization getOrg(String organizationId) {
+		log.info("Finding Org with id: '" + organizationId + "'");
 		return orgRepository.findById(organizationId);
 	}
 	
