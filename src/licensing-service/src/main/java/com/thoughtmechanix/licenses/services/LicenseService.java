@@ -1,6 +1,7 @@
 package com.thoughtmechanix.licenses.services;
 
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 import org.slf4j.Logger;
@@ -54,7 +55,9 @@ public class LicenseService {
 				.withComment(config.getExampleProperty());
 	}
 	
+	@HystrixCommand
 	public List<License> getLicenses(String organizationId) {
+		randomlyRunLong();
 		return licenseRepository.findByOrganizationId(organizationId);
 	}
 	
@@ -71,7 +74,6 @@ public class LicenseService {
 		licenseRepository.save(license);
 	}
 	
-	@HystrixCommand
 	private Organization retrieveOrgInfo(String organizationId, ServiceClientType clientType) {
 		
 		switch (clientType) {
@@ -90,5 +92,18 @@ public class LicenseService {
 		
 		}
 		
+	}
+	
+	private void randomlyRunLong() {
+		final Random rand = new Random();
+		
+		final int randomNum = rand.nextInt((3 - 1) + 1) + 1;
+		if (randomNum == 3) {
+			try {
+				Thread.sleep(11000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }
