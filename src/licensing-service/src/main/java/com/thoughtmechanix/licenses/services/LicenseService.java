@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.thoughtmechanix.licenses.clients.OrganizationDiscoveryClient;
 import com.thoughtmechanix.licenses.clients.OrganizationFeignClient;
 import com.thoughtmechanix.licenses.clients.OrganizationRestTemplateClient;
@@ -20,6 +21,8 @@ import com.thoughtmechanix.organization.model.Organization;
 
 @Service
 public class LicenseService {
+	
+	private static final Random RAND = new Random();
 
 	@Autowired
 	private LicenseRepository licenseRepository;
@@ -55,7 +58,7 @@ public class LicenseService {
 				.withComment(config.getExampleProperty());
 	}
 	
-	@HystrixCommand
+	@HystrixCommand(commandProperties = {@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "10000")})
 	public List<License> getLicenses(String organizationId) {
 		randomlyRunLong();
 		return licenseRepository.findByOrganizationId(organizationId);
@@ -95,12 +98,15 @@ public class LicenseService {
 	}
 	
 	private void randomlyRunLong() {
-		final Random rand = new Random();
+		final int randomNum = RAND.nextInt((3 - 1) + 1) + 1;
+		final int randomWait = RAND.nextInt((15 - 1) + 1) * 1000;
 		
-		final int randomNum = rand.nextInt((3 - 1) + 1) + 1;
+		log.info("\tRandomNum: " + randomNum);
+		log.info("\tRandomWait: " + randomWait);
+		
 		if (randomNum == 3) {
 			try {
-				Thread.sleep(11000);
+				Thread.sleep(randomWait);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
