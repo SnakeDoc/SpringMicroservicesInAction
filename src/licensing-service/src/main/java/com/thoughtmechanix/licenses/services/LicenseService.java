@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.thoughtmechanix.licenses.clients.OrganizationDiscoveryClient;
 import com.thoughtmechanix.licenses.clients.OrganizationFeignClient;
 import com.thoughtmechanix.licenses.clients.OrganizationRestTemplateClient;
@@ -70,6 +71,7 @@ public class LicenseService {
 		licenseRepository.save(license);
 	}
 	
+	@HystrixCommand
 	private Organization retrieveOrgInfo(String organizationId, ServiceClientType clientType) {
 		
 		switch (clientType) {
